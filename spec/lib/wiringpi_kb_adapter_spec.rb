@@ -6,8 +6,13 @@ module WiringPi
     let(:output_pins) { {led: 7} }
     let(:subject) { GPIO.new(:input_pins => input_pins, :output_pins => output_pins) }
 
-    %w[input_pins output_pins mode_pins mode_pins=].each do |method|
+    # attr_reader
+    %w[input_pins output_pins mode_pins].each do |method|
       it { should respond_to method }
+    end
+
+    %w[mode write readAll].each do |method|
+      it { should respond_to method}
     end
   end
 end

@@ -40,10 +40,11 @@ module WiringPi
   end
 
   class GPIO
-    attr_reader :mode_pins
+    attr_reader :mode_pins, :input_pins, :output_pins
 
-    def initialize(*args)
-      # now its only param is WPI_MODE_PINS
+    def initialize(what=WPI_MODE_PINS, opts)
+      @input_pins  = opts[:input_pins]  or Table::INPUT_PINS
+      @output_pins = opts[:output_pins] or Table::OUTPUT_PINS
     end
 
     def mode(pin_number, io)
@@ -65,16 +66,6 @@ module WiringPi
 
     def write(pin_number, value)
       # puts "pin #{pin_number} is now #{value}"
-    end
-
-    private
-
-    def input_pins
-      Table::INPUT_PINS
-    end
-
-    def output_pins
-      Table::OUTPUT_PINS
     end
   end
 end
