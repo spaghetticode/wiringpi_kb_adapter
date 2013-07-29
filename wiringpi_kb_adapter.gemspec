@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = WiringpiKbAdapter::VERSION
   spec.authors       = ["andrea longhi"]
   spec.email         = ["andrea@spaghetticode.it"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{adapter to simulate wiringpi interactions via keyboard}
+  spec.summary       = %q{wiringpi keyboard adapter}
+  spec.homepage      = "https://github.com/spaghetticode/wiringpi_kb_adapter"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
