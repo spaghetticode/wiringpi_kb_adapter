@@ -4,13 +4,14 @@ WPI_MODE_PINS = Object.new
 
 require 'curses'
 
-def puts(message)
-  Curses.addstr message + "\n"
-end
-
 module WiringPi
+  def puts(message)
+    Curses.addstr message
+  end
+
   class Serial
     def initialize(*args)
+      Curses.timeout = 0
       Curses.noecho # do not show typed keys
       Curses.init_screen
       Curses.stdscr.keypad(true) # enable keypad
@@ -42,8 +43,8 @@ module WiringPi
   class GPIO
     attr_reader :mode_pins, :input_pins, :output_pins
 
-    def initialize(what=WPI_MODE_PINS, opts)
-      @input_pins  = opts[:input_pins]  or Table::INPUT_PINS
+    def initialize(opts={})
+      @input_pins  = opts[:input_pins] or Table::INPUT_PINS
       @output_pins = opts[:output_pins] or Table::OUTPUT_PINS
     end
 
@@ -53,19 +54,24 @@ module WiringPi
     end
 
     def readAll
+      # the returned hash has 1 as value for all its keys by default
       hash = Hash.new {|h, k| h[k] = 1}
-      char = Curses.getch
+      char = getch
       if char =~ /\d/
         value = char.to_i
-        if key = input_pins.key(value)
-          hash[value] = 0
-        end
+        hash[value] = 0 if key = input_pins.key(value)
       end
       hash
     end
 
     def write(pin_number, value)
       # puts "pin #{pin_number} is now #{value}"
+    end
+
+    private
+
+    def getch
+      Curses.getch
     end
   end
 end
